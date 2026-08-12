@@ -40,6 +40,17 @@
           <span class="bell-icon">◉</span>
           <span><small>घंटी बजाओ</small><b>शाम शुरू करो</b></span>
         </button>
+        <div class="horn-row" role="group" aria-label="गली की आवाज़ें">
+          <button class="horn" type="button" data-horn="assets/horn-1.mp3" aria-label="भोंपू बजाओ">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h3l7 5V5l-7 5H3Zm12.5-1.5a5 5 0 0 1 0 7v-7Z"/></svg>
+          </button>
+          <button class="horn" type="button" data-horn="assets/horn-2.mp3" aria-label="साइकिल की घंटी">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1.5 1.5 0 0 1 1.5 1.5v.7A6 6 0 0 1 18 11v4l2 2v1H4v-1l2-2v-4a6 6 0 0 1 4.5-5.8v-.7A1.5 1.5 0 0 1 12 3Zm0 18a2.5 2.5 0 0 1-2.45-2h4.9A2.5 2.5 0 0 1 12 21Z"/></svg>
+          </button>
+          <button class="horn" type="button" data-horn="assets/horn-3.mp3" aria-label="सीटी बजाओ">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9h9l3-3h4a4 4 0 0 1 0 8h-1.1a5.5 5.5 0 1 1-10.8 0H2V9Zm7.5 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/></svg>
+          </button>
+        </div>
       </section>
 
       <aside class="flavour-ticket" aria-label="आज की पसंद">
@@ -48,6 +59,9 @@
         <span>पिस्ता • केसर • यादें</span>
         <i>₹ ५</i>
       </aside>
+
+      <!-- Filled by renderCollections() from the KULFI_TRACKS_* globals. -->
+      <nav class="collections" id="collections" aria-label="प्लेलिस्ट चुनें"></nav>
 
       <section class="player-shell" aria-label="म्यूज़िक प्लेयर">
         <div class="album-art">

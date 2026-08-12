@@ -22,27 +22,32 @@
     return apiPromise;
   }
 
-  async function mount({ elementId, playlistId = "", videoIds = [], events = {} }) {
+  /*
+   * Always construct with a single videoId. YouTube's playlist mechanics do not
+   * survive this offscreen embed: listType/list with no videoId generates a
+   * malformed URL so the iframe never reaches youtube.com ("postMessage target
+   * origin does not match"), and loadPlaylist() fails silently, stranding the
+   * player on one video with a dead next/previous. app.js owns the queue and
+   * drives it with loadVideoById instead.
+   */
+  async function mount({ elementId, videoId, events = {} }) {
     if (!document.getElementById(elementId)) throw new Error(`Missing element #${elementId}`);
-    if (!playlistId && videoIds.length === 0) throw new Error("Need a playlistId or at least one videoId");
+    if (!videoId) throw new Error("Need a videoId to bootstrap the player");
 
     const YT = await loadYouTubeApi();
-    const playerVars = {
-      autoplay: 0,
-      controls: 0,
-      disablekb: 1,
-      fs: 0,
-      playsinline: 1,
-      rel: 0,
-      origin: global.location.origin,
-    };
-    if (playlistId) Object.assign(playerVars, { listType: "playlist", list: playlistId });
-
     return new YT.Player(elementId, {
       width: "320",
       height: "180",
-      videoId: playlistId ? undefined : videoIds[0],
-      playerVars,
+      videoId,
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        playsinline: 1,
+        rel: 0,
+        origin: global.location.origin,
+      },
       events,
     });
   }

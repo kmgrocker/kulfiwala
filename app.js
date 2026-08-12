@@ -4,11 +4,33 @@
  * metadata, and shows its own "Get Spotify" overlay.
  */
 const SPOTIFY_URL = "https://open.spotify.com/playlist/7wJi3b7M4qfOfI1C4sYJUf";
-const TRACKS = window.KULFI_TRACKS;
+
+/*
+ * The queue lives here, not in YouTube's playlist mechanics — listType/list and
+ * loadPlaylist() both fail silently in an offscreen embed, leaving the player
+ * stuck on one video with no next/previous. tracks.js is generated from the
+ * playlist by check-tracks.mjs; re-run it after changing the playlist.
+ */
+
+/*
+ * Collections are found by naming convention, not listed anywhere — every
+ * window.KULFI_TRACKS_<n> that tracks.js defines gets a chip, so adding a
+ * playlist to check-tracks.mjs and regenerating is the whole workflow.
+ */
+const COLLECTIONS = Object.keys(window)
+  .filter((key) => /^KULFI_TRACKS_\d+$/.test(key))
+  .sort((a, b) => +a.split("_").pop() - +b.split("_").pop()) // _10 after _2, not before
+  .map((key) => ({
+    label: window.KULFI_LABELS?.[key] ?? window[key][0]?.artist ?? key,
+    tracks: window[key],
+  }));
+
+let TRACKS = COLLECTIONS[0].tracks;
 
 const $ = (s) => document.querySelector(s);
 const ui = {
   shell: $(".player-shell"),
+  collections: $("#collections"),
   play: $("#play"),
   prev: $("#prev"),
   next: $("#next"),
@@ -26,6 +48,7 @@ const ui = {
 let player;
 let index = Math.floor(Math.random() * TRACKS.length);
 let playing = false;
+let skips = 0; // consecutive un-embeddable tracks; caps the auto-skip cascade
 
 const coverUrl = (id) => `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
 const fmt = (s) =>
@@ -69,6 +92,41 @@ function go(step) {
   setPlaying(true);
 }
 
+function renderCollections() {
+  ui.collections.replaceChildren(
+    ...COLLECTIONS.map(({ label }, i) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "chip";
+      chip.textContent = label;
+      chip.setAttribute("aria-pressed", String(i === 0));
+      chip.classList.toggle("is-active", i === 0);
+      chip.addEventListener("click", () => selectCollection(i));
+      return chip;
+    }),
+  );
+}
+
+function selectCollection(i) {
+  TRACKS = COLLECTIONS[i].tracks;
+  index = 0;
+  skips = 0;
+  [...ui.collections.children].forEach((chip, n) => {
+    chip.classList.toggle("is-active", n === i);
+    chip.setAttribute("aria-pressed", String(n === i));
+  });
+  const chip = ui.collections.children[i];
+  chip.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+  // Space is ignored while a button holds focus (see the keydown guard), so
+  // hand focus back or the shortcut dies after the first chip click.
+  chip.blur();
+  showToast(COLLECTIONS[i].label);
+  renderTrack();
+  if (!player) return;
+  player.loadVideoById(TRACKS[index].id);
+  setPlaying(true);
+}
+
 function toggle() {
   if (!player) return start();
   playing ? player.pauseVideo() : player.playVideo();
@@ -81,17 +139,33 @@ async function start() {
   try {
     player = await window.KulfiYouTubePlayer.mount({
       elementId: "yt-host",
-      videoIds: [TRACKS[index].id],
+      videoId: TRACKS[index].id,
       events: {
         onReady: (e) => e.target.playVideo(),
         onStateChange: (e) => {
           const YT = window.YT.PlayerState;
-          if (e.data === YT.ENDED) return go(1);
-          if (e.data === YT.PLAYING) setPlaying(true);
+          if (e.data === YT.PLAYING) {
+            skips = 0;
+            setPlaying(true);
+          }
           if (e.data === YT.PAUSED) setPlaying(false);
+          // YouTube also emits ENDED while swapping videos. Only a real finish
+          // (playhead actually at the end) should advance the queue.
+          if (e.data === YT.ENDED) {
+            const duration = e.target.getDuration();
+            if (duration && e.target.getCurrentTime() > duration - 3) go(1);
+          }
         },
-        // 101/150 = embedding disabled by the uploader. Skip, don't stall.
-        onError: () => {
+        onError: (e) => {
+          // Only 101/150 mean "uploader disabled embedding" — skip those.
+          // Everything else (2, 5, 153…) is a player/origin problem; skipping
+          // on those is what made the queue race through the whole playlist.
+          if (e.data !== 101 && e.data !== 150) {
+            showToast(`यूट्यूब प्लेयर की दिक्कत (${e.data})`);
+            setPlaying(false);
+            return;
+          }
+          if (++skips >= TRACKS.length) return showToast("कोई गीत नहीं बज पा रहा");
           showToast("यह गीत यहाँ नहीं बजेगा — अगला…");
           go(1);
         },
@@ -99,6 +173,7 @@ async function start() {
     });
   } catch (error) {
     start.pending = false;
+    console.error("[kulfiwala] player failed to mount:", error);
     showToast("प्लेयर लोड नहीं हो पाया");
   }
 }
@@ -125,6 +200,13 @@ ui.heroPlay.addEventListener("click", toggle);
 ui.prev.addEventListener("click", () => go(-1));
 ui.next.addEventListener("click", () => go(1));
 
+/* Street sounds, layered over the music. A missing file just does nothing. */
+document.querySelectorAll("[data-horn]").forEach((button) => {
+  button.addEventListener("click", () => {
+    new Audio(button.dataset.horn).play().catch(() => {});
+  });
+});
+
 document.addEventListener("keydown", (event) => {
   if (["INPUT", "BUTTON", "A"].includes(document.activeElement.tagName)) return;
   if (event.code === "Space") {
@@ -141,6 +223,7 @@ function updateClock() {
 }
 
 $("#spotify-link").href = SPOTIFY_URL;
+renderCollections();
 renderTrack();
 updateClock();
 setInterval(updateClock, 60_000);
