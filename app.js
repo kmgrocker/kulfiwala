@@ -222,8 +222,22 @@ function updateClock() {
   }).format(new Date());
 }
 
+// ponytail: fake presence — no backend. Clock-seeded, so every visitor sees the
+// same number at the same moment. Real count = Vercel edge fn + KV heartbeat.
+function updateOnline() {
+  const now = new Date();
+  const hour = now.getHours() + now.getMinutes() / 60;
+  const base = 14 + 30 * Math.exp(-((hour - 21) ** 2) / 14); // evening peak
+  const noise = Math.sin(Math.floor(now.getTime() / 20_000) * 12.9898) * 43758.5453;
+  const count = Math.max(3, Math.round(base + (noise - Math.floor(noise)) * 9 - 4));
+  $("#online-count").innerHTML =
+    `<i></i> ${new Intl.NumberFormat("hi-IN-u-nu-deva").format(count)} सुन रहे हैं`;
+}
+
 $("#spotify-link").href = SPOTIFY_URL;
 renderCollections();
 renderTrack();
 updateClock();
+updateOnline();
 setInterval(updateClock, 60_000);
+setInterval(updateOnline, 20_000);

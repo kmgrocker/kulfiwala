@@ -26,6 +26,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .brand-copy small { color: var(--pista); font-size: 9px; letter-spacing: .24em; margin-top: 6px; }
 .top-actions { display: flex; align-items: center; gap: 18px; font-size: 12px; letter-spacing: .08em; }
 .time { opacity: .72; }
+.online i { display: inline-block; width: 6px; height: 6px; background: var(--pista); border-radius: 50%; box-shadow: 0 0 8px var(--pista); margin-right: 5px; }
 .playlist-link { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(255,243,208,.45); padding-bottom: 3px; }
 .playlist-link span { color: var(--saffron); margin-left: 4px; }
 .icon-button { border: 0; background: transparent; color: inherit; padding: 6px; cursor: pointer; }
