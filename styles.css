@@ -32,15 +32,17 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .icon-button { border: 0; background: transparent; color: inherit; padding: 6px; cursor: pointer; }
 .icon-button svg { width: 20px; height: 20px; fill: currentColor; display: block; }
 
-.hero-copy { margin: auto 0; width: min(610px, 48vw); padding: 4vh 0 10vh; position: relative; z-index: 2; }
+/* margin:auto already centres this in the leftover flex space — the padding only
+   biases it upward, so keep it small or the stage outgrows 100svh and the page scrolls. */
+.hero-copy { margin: auto 0; width: min(610px, 48vw); padding: 2vh 0 3vh; position: relative; z-index: 2; }
 .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--pista); font-size: clamp(10px, .86vw, 13px); letter-spacing: .17em; margin: 0 0 14px; font-weight: 750; }
 .eyebrow span { width: 34px; height: 2px; background: var(--saffron); }
 h1 { margin: 0; width: min-content; line-height: .68; text-shadow: 5px 7px 0 rgba(110,20,21,.75), 0 8px 24px rgba(0,0,0,.35); transform: rotate(-1.8deg); }
 h1 span, h1 em { display: block; font-style: normal; font-weight: 950; letter-spacing: -.075em; }
 h1 span { color: var(--cream); font-size: clamp(76px, 9.6vw, 158px); -webkit-text-stroke: clamp(1px,.1vw,2px) var(--cream); }
 h1 em { color: var(--saffron); font-size: clamp(71px, 8.8vw, 145px); margin-left: .78em; -webkit-text-stroke: clamp(1px,.09vw,2px) var(--saffron); }
-.tagline { display: inline-block; background: var(--red); color: var(--cream); padding: 7px 16px 5px; margin: 27px 0 13px 10px; transform: rotate(-1.5deg); font-weight: 900; font-size: clamp(13px, 1vw, 16px); box-shadow: 4px 4px 0 rgba(255,243,208,.25); }
-.intro { margin: 0 0 20px 10px; font-family: Georgia, serif; color: rgba(255,243,208,.77); font-size: clamp(12px, .92vw, 15px); line-height: 1.55; }
+.tagline { display: inline-block; background: var(--red); color: var(--cream); padding: 7px 16px 5px; margin: 16px 0 12px 10px; transform: rotate(-1.5deg); font-weight: 900; font-size: clamp(13px, 1vw, 16px); box-shadow: 4px 4px 0 rgba(255,243,208,.25); }
+.intro { margin: 0 0 14px 10px; font-family: Georgia, serif; color: rgba(255,243,208,.77); font-size: clamp(12px, .92vw, 15px); line-height: 1.55; }
 .ring-bell { display: flex; align-items: center; gap: 12px; margin-left: 10px; border: 0; background: transparent; color: var(--cream); cursor: pointer; text-align: left; padding: 4px 0; }
 .bell-icon { width: 43px; height: 43px; display: grid; place-items: center; border-radius: 50%; background: var(--cream); color: var(--red); box-shadow: 0 0 0 0 rgba(255,243,208,.35); animation: pulse 2.4s infinite; }
 .ring-bell small, .ring-bell b { display: block; }
@@ -125,7 +127,8 @@ kbd { font-family: inherit; border: 1px solid rgba(255,243,208,.22); border-radi
   .hint { display: none; }
 }
 
-@media (max-height: 690px) and (min-width: 821px) {
+/* Below this the trimmed layout still can't fit — drop the prose and shrink the wordmark. */
+@media (max-height: 740px) and (min-width: 821px) {
   .stage { padding-top: 18px; padding-bottom: 12px; }
   .hero-copy { padding: 1vh 0 3vh; }
   h1 span { font-size: 92px; }

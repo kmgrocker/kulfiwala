@@ -10,8 +10,8 @@ const SPOTIFY_URL = "https://open.spotify.com/playlist/7wJi3b7M4qfOfI1C4sYJUf";
  * air before the vocals. Missing or 0 plays from the top.
  */
 const START_AT = {
-  KULFI_TRACKS_1: 0,
-  KULFI_TRACKS_2: 6,
+  KULFI_TRACKS_1: 0, // altaf raja 
+  KULFI_TRACKS_2: 6, // kumar sanau 
 };
 
 /*
