@@ -1,106 +1,126 @@
 <!doctype html>
 <html lang="hi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#071630" />
-    <meta name="description" content="कुल्फीवाला — पुरानी गलियों और भूले-बिसरे गीतों की एक ठंडी शाम।" />
-    <meta property="og:title" content="कुल्फीवाला — ठंडी यादें, गरम धुनें" />
-    <meta property="og:description" content="नब्बे के दशक की गलियों से चुने हुए गीत।" />
-    <meta property="og:image" content="/assets/kulfiwala-hero.png" />
-    <title>कुल्फीवाला — ठंडी यादें, गरम धुनें</title>
-    <link rel="preload" href="/assets/kulfiwala-hero.png" as="image" fetchpriority="high" />
-    <link rel="preconnect" href="https://i.ytimg.com" />
-    <link rel="preconnect" href="https://www.youtube.com" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="stage" id="stage">
-      <div class="scene" aria-hidden="true"></div>
-      <div class="grain" aria-hidden="true"></div>
-      <div class="vignette" aria-hidden="true"></div>
 
-      <header class="topbar">
-        <a class="brand" href="#stage" aria-label="कुल्फीवाला होम">
-          <span class="brand-mark">कु</span>
-          <span class="brand-copy"><b>कुल्फीवाला</b><small>गली नं. ९०</small></span>
-        </a>
-        <div class="top-actions">
-          <span class="time online" id="online-count" aria-live="off"><i></i> २९ सुन रहे हैं</span>
-          <span class="time" id="local-time">शाम ७:३०</span>
-          <a class="playlist-link" id="spotify-link" href="https://open.spotify.com/playlist/7wJi3b7M4qfOfI1C4sYJUf" target="_blank" rel="noreferrer">Spotify <span>↗</span></a>
-        </div>
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#071630" />
+  <meta name="description" content="कुल्फीवाला — पुरानी गलियों और भूले-बिसरे गीतों की एक ठंडी शाम।" />
+  <meta property="og:title" content="कुल्फीवाला — गाँव की गर्मी, कुल्फी की ठंडक" />
+  <meta property="og:description" content="नब्बे के दशक की गलियों से चुने हुए गीत।" />
+  <meta property="og:image" content="/assets/kulfiwala-hero.png" />
+  <title>कुल्फीवाला — गाँव की गर्मी, कुल्फी की ठंडक</title>
+  <link rel="preload" href="/assets/kulfiwala-hero.png" as="image" fetchpriority="high" />
+  <link rel="preconnect" href="https://i.ytimg.com" />
+  <link rel="preconnect" href="https://www.youtube.com" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
 
-      <section class="hero-copy" aria-labelledby="hero-title">
-        <p class="eyebrow"><span></span> नब्बे के दशक की पेशकश</p>
-        <h1 id="hero-title"><span>कुल्फ़ी</span><em>वाला</em></h1>
-        <p class="tagline">ठंडी यादें&nbsp;•&nbsp; गरम धुनें</p>
-        <p class="intro">वही पुरानी गली। वही शाम की घंटी।<br />और रेडियो पर आपका पसंदीदा गीत।</p>
-        <button class="ring-bell" id="hero-play" type="button">
-          <span class="bell-icon">◉</span>
-          <span><small>घंटी बजाओ</small><b>शाम शुरू करो</b></span>
+<body>
+  <main class="stage" id="stage">
+    <div class="scene" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#stage" aria-label="कुल्फीवाला होम">
+        <span class="brand-mark">कु</span>
+        <span class="brand-copy"><b>कुल्फीवाला</b><small>गली नं. ९०</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="time online" id="online-count" aria-live="off"><i></i> २९ सुन रहे हैं</span>
+        <span class="time" id="local-time">शाम ७:३०</span>
+        <a class="playlist-link" id="spotify-link" href="https://open.spotify.com/playlist/7wJi3b7M4qfOfI1C4sYJUf"
+          target="_blank" rel="noreferrer">Spotify <span>↗</span></a>
+      </div>
+    </header>
+
+    <section class="hero-copy" aria-labelledby="hero-title">
+      <p class="eyebrow"><span></span> नब्बे के दशक की पेशकश</p>
+      <h1 id="hero-title"><span>कुल्फ़ी</span><em>वाला</em></h1>
+      <p class="tagline">गाँव की गर्मी&nbsp;•&nbsp; कुल्फी की ठंडक</p>
+      <p class="intro">वही पुरानी गली। वही शाम की घंटी।<br />और रेडियो पर आपका पसंदीदा गीत।</p>
+      <button class="ring-bell" id="hero-play" type="button">
+        <span class="bell-icon">◉</span>
+        <span><small>घंटी बजाओ</small><b>शाम शुरू करो</b></span>
+      </button>
+      <div class="horn-row" role="group" aria-label="गली की आवाज़ें">
+        <button class="horn" type="button" data-horn="assets/horn-1.mp3" aria-label="भोंपू बजाओ">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 10v4h3l7 5V5l-7 5H3Zm12.5-1.5a5 5 0 0 1 0 7v-7Z" />
+          </svg>
         </button>
-        <div class="horn-row" role="group" aria-label="गली की आवाज़ें">
-          <button class="horn" type="button" data-horn="assets/horn-1.mp3" aria-label="भोंपू बजाओ">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h3l7 5V5l-7 5H3Zm12.5-1.5a5 5 0 0 1 0 7v-7Z"/></svg>
-          </button>
-          <button class="horn" type="button" data-horn="assets/horn-2.mp3" aria-label="साइकिल की घंटी">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1.5 1.5 0 0 1 1.5 1.5v.7A6 6 0 0 1 18 11v4l2 2v1H4v-1l2-2v-4a6 6 0 0 1 4.5-5.8v-.7A1.5 1.5 0 0 1 12 3Zm0 18a2.5 2.5 0 0 1-2.45-2h4.9A2.5 2.5 0 0 1 12 21Z"/></svg>
-          </button>
-          <button class="horn" type="button" data-horn="assets/horn-3.mp3" aria-label="सीटी बजाओ">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9h9l3-3h4a4 4 0 0 1 0 8h-1.1a5.5 5.5 0 1 1-10.8 0H2V9Zm7.5 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/></svg>
-          </button>
-        </div>
-      </section>
+        <button class="horn" type="button" data-horn="assets/horn-2.mp3" aria-label="साइकिल की घंटी">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 3a1.5 1.5 0 0 1 1.5 1.5v.7A6 6 0 0 1 18 11v4l2 2v1H4v-1l2-2v-4a6 6 0 0 1 4.5-5.8v-.7A1.5 1.5 0 0 1 12 3Zm0 18a2.5 2.5 0 0 1-2.45-2h4.9A2.5 2.5 0 0 1 12 21Z" />
+          </svg>
+        </button>
+        <button class="horn" type="button" data-horn="assets/horn-3.mp3" aria-label="सीटी बजाओ">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M2 9h9l3-3h4a4 4 0 0 1 0 8h-1.1a5.5 5.5 0 1 1-10.8 0H2V9Zm7.5 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z" />
+          </svg>
+        </button>
+      </div>
+    </section>
 
-      <aside class="flavour-ticket" aria-label="आज की पसंद">
-        <span class="ticket-kicker">आज की पसंद</span>
-        <strong>मलाई</strong>
-        <span>पिस्ता • केसर • यादें</span>
-        <i>₹ ५</i>
-      </aside>
+    <aside class="flavour-ticket" aria-label="आज की पसंद">
+      <span class="ticket-kicker">आज की पसंद</span>
+      <strong>मलाई</strong>
+      <span>पिस्ता • केसर • यादें</span>
+      <i>₹ ५</i>
+    </aside>
 
-      <!-- Filled by renderCollections() from the KULFI_TRACKS_* globals. -->
-      <nav class="collections" id="collections" aria-label="प्लेलिस्ट चुनें"></nav>
+    <!-- Filled by renderCollections() from the KULFI_TRACKS_* globals. -->
+    <nav class="collections" id="collections" aria-label="प्लेलिस्ट चुनें"></nav>
 
-      <section class="player-shell" aria-label="म्यूज़िक प्लेयर">
-        <div class="album-art">
-          <img id="cover" alt="" width="78" height="78" />
-        </div>
+    <section class="player-shell" aria-label="म्यूज़िक प्लेयर">
+      <div class="album-art">
+        <img id="cover" alt="" width="78" height="78" />
+      </div>
 
-        <div class="track-info">
-          <span class="now-playing"><i></i> अब बज रहा है</span>
-          <h2 id="track-title">आपकी कुल्फीवाला प्लेलिस्ट</h2>
-          <p id="track-artist">धुनें तैयार हैं</p>
-        </div>
+      <div class="track-info">
+        <span class="now-playing"><i></i> अब बज रहा है</span>
+        <h2 id="track-title">आपकी कुल्फीवाला प्लेलिस्ट</h2>
+        <p id="track-artist">धुनें तैयार हैं</p>
+      </div>
 
-        <div class="transport">
-          <button id="prev" type="button" aria-label="पिछला गीत">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 6h2v12H7V6Zm10 0v12l-8-6 8-6Z"/></svg>
-          </button>
-          <button class="play-button" id="play" type="button" aria-label="चलाएँ">
-            <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg>
-            <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7V5Zm6 0h4v14h-4V5Z"/></svg>
-          </button>
-          <button id="next" type="button" aria-label="अगला गीत">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6h2v12h-2V6ZM7 6l8 6-8 6V6Z"/></svg>
-          </button>
-        </div>
+      <div class="transport">
+        <button id="prev" type="button" aria-label="पिछला गीत">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 6h2v12H7V6Zm10 0v12l-8-6 8-6Z" />
+          </svg>
+        </button>
+        <button class="play-button" id="play" type="button" aria-label="चलाएँ">
+          <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m8 5 11 7-11 7V5Z" />
+          </svg>
+          <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 5h4v14H7V5Zm6 0h4v14h-4V5Z" />
+          </svg>
+        </button>
+        <button id="next" type="button" aria-label="अगला गीत">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 6h2v12h-2V6ZM7 6l8 6-8 6V6Z" />
+          </svg>
+        </button>
+      </div>
 
-        <div class="progress">
-          <small id="time-elapsed">0:00</small>
-          <div class="progress-bar" id="progress-bar"><i id="progress-fill"></i></div>
-          <small id="time-total">0:00</small>
-        </div>
-      </section>
+      <div class="progress">
+        <small id="time-elapsed">0:00</small>
+        <div class="progress-bar" id="progress-bar"><i id="progress-fill"></i></div>
+        <small id="time-total">0:00</small>
+      </div>
+    </section>
 
-      <p class="hint"><kbd>Space</kbd> से चलाएँ / रोकें &nbsp;·&nbsp; <kbd>◀</kbd> <kbd>▶</kbd> से गीत बदलें</p>
-      <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    </main>
-    <div id="yt-host" aria-hidden="true"></div>
-    <script src="tracks.js"></script>
-    <script src="youtube-player.js"></script>
-    <script src="app.js"></script>
-  </body>
+    <p class="hint"><kbd>Space</kbd> से चलाएँ / रोकें &nbsp;·&nbsp; <kbd>◀</kbd> <kbd>▶</kbd> से गीत बदलें</p>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+  <div id="yt-host" aria-hidden="true"></div>
+  <script src="tracks.js"></script>
+  <script src="youtube-player.js"></script>
+  <script src="app.js"></script>
+</body>
+
 </html>
