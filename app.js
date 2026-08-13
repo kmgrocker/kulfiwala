@@ -6,6 +6,15 @@
 const SPOTIFY_URL = "https://open.spotify.com/playlist/7wJi3b7M4qfOfI1C4sYJUf";
 
 /*
+ * Seconds to skip at the head of every song in a collection — long intros, dead
+ * air before the vocals. Missing or 0 plays from the top.
+ */
+const START_AT = {
+  KULFI_TRACKS_1: 0,
+  KULFI_TRACKS_2: 6,
+};
+
+/*
  * The queue lives here, not in YouTube's playlist mechanics — listType/list and
  * loadPlaylist() both fail silently in an offscreen embed, leaving the player
  * stuck on one video with no next/previous. tracks.js is generated from the
@@ -23,9 +32,11 @@ const COLLECTIONS = Object.keys(window)
   .map((key) => ({
     label: window.KULFI_LABELS?.[key] ?? window[key][0]?.artist ?? key,
     tracks: window[key],
+    startAt: START_AT[key] ?? 0,
   }));
 
 let TRACKS = COLLECTIONS[0].tracks;
+let startAt = COLLECTIONS[0].startAt;
 
 const $ = (s) => document.querySelector(s);
 const ui = {
@@ -84,12 +95,17 @@ function setPlaying(state) {
   ui.play.setAttribute("aria-label", state ? "रोकें" : "चलाएँ");
 }
 
+/* Every queue move goes through here so the collection's head offset always applies. */
+function load() {
+  player.loadVideoById({ videoId: TRACKS[index].id, startSeconds: startAt });
+  setPlaying(true);
+}
+
 function go(step) {
   index = (index + step + TRACKS.length) % TRACKS.length;
   renderTrack();
   if (!player) return start();
-  player.loadVideoById(TRACKS[index].id);
-  setPlaying(true);
+  load();
 }
 
 function renderCollections() {
@@ -109,6 +125,7 @@ function renderCollections() {
 
 function selectCollection(i) {
   TRACKS = COLLECTIONS[i].tracks;
+  startAt = COLLECTIONS[i].startAt;
   index = 0;
   skips = 0;
   [...ui.collections.children].forEach((chip, n) => {
@@ -123,8 +140,7 @@ function selectCollection(i) {
   showToast(COLLECTIONS[i].label);
   renderTrack();
   if (!player) return;
-  player.loadVideoById(TRACKS[index].id);
-  setPlaying(true);
+  load();
 }
 
 function toggle() {
@@ -141,7 +157,8 @@ async function start() {
       elementId: "yt-host",
       videoId: TRACKS[index].id,
       events: {
-        onReady: (e) => e.target.playVideo(),
+        // loadVideoById (not playVideo) so the bootstrap track honours startAt too.
+        onReady: (e) => e.target.loadVideoById({ videoId: TRACKS[index].id, startSeconds: startAt }),
         onStateChange: (e) => {
           const YT = window.YT.PlayerState;
           if (e.data === YT.PLAYING) {
@@ -203,7 +220,7 @@ ui.next.addEventListener("click", () => go(1));
 /* Street sounds, layered over the music. A missing file just does nothing. */
 document.querySelectorAll("[data-horn]").forEach((button) => {
   button.addEventListener("click", () => {
-    new Audio(button.dataset.horn).play().catch(() => {});
+    new Audio(button.dataset.horn).play().catch(() => { });
   });
 });
 
